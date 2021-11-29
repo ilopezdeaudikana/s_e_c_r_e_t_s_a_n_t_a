@@ -1,3 +1,4 @@
+@import '../variables.scss';
 .list {
   list-style: none;
   padding: 0 0 0 2%;
@@ -14,16 +15,16 @@
 }
 
 .button {
-  border-radius: 5px;
+  border-radius: 0.5rem;
   padding: 1rem;
   margin: 1.5rem 0 0 0;
   border: 0;
-  color: #fff;
-  background-color: #b0b0b0;
-  box-shadow: 0 0.1rem 0.1rem 0 rgba(0, 0, 0, 0.3);
+  color: $button_text;
+  background-color: $button_background;
+  box-shadow: 0 0.1rem 0.1rem 0 $shadow3;
   cursor: pointer;
   &:hover {
-    color: #666;
-    background-color: #ccc;
+    color: $button_text_hover;
+    background-color: $button_background_hover;
   }
 }

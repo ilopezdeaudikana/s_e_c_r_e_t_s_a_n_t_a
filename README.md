@@ -2,6 +2,8 @@
 
 This app generates random asignments from a list of users returned from the API. There are not any routes other than the main page.
 
+I have assumed that there were no repeated records in the users. Also, in the absence of an id I have used user's phones as keys in the list loop.  
+
 The UI is divided in three components, Santa, Pairs and Card. The logic is divided as follows:
 
 1. Santa component: Triggers an API request to get the list of users and passes them down to the pairs component.
@@ -10,7 +12,9 @@ The UI is divided in three components, Santa, Pairs and Card. The logic is divid
 
 The stack I used is `React`, `Typescript`, `React hooks`, `Redux`, `Sagas`, `Jest`, `JSDoc` and `Scss modules`.
 
-I chose redux for state management. The state has this format.
+I have chosen redux for state management. Maybe I could have used the context API for this case, but I tend to use redux by default because scales better.
+
+The state has this format:
 
 ```js
 export interface PlayersState {
