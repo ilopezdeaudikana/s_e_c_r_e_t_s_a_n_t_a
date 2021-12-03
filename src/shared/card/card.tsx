@@ -1,4 +1,4 @@
-import { PairedPlayers } from '../models/models';
+import { PairedPlayers } from '../../models/models';
 import styles from './card.module.scss';
 
 /**

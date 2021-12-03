@@ -12,7 +12,7 @@ The UI is divided in three components, Santa, Pairs and Card. The logic is divid
 
 The stack I used is `React`, `Typescript`, `React hooks`, `Redux`, `Sagas`, `Jest`, `JSDoc` and `Scss modules`.
 
-I have chosen redux for state management. Maybe I could have used the context API for this case, but I tend to use redux by default because scales better.
+I have chosen redux for state management. Maybe I could have used the context API for this case (combined with useReducer), but I tend to use redux by default because scales better and doesn't rely on the tree structure.
 
 The state has this format:
 

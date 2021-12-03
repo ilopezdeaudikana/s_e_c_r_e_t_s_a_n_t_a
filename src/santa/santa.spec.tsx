@@ -22,13 +22,12 @@ describe('Santa component', () => {
     const store = mockStore({
       players: { list: [mockPlayer] },
     });
-    const tree = render(
+    render(
       <reactRedux.Provider store={store}>
         <Santa />
       </reactRedux.Provider>
     );
 
-    expect(tree).toMatchSnapshot();
     await waitFor(() => {
       expect(mockedDispatch).toHaveBeenCalledTimes(1);
       expect(useSelectorMock).toHaveBeenCalledTimes(1);

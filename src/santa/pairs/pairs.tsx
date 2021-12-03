@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { PairedPlayers, Player } from '../models/models';
-import { UpdateList } from '../store/actions/actions';
-import { Card } from '../card/card';
+import { secureShuffle } from '../../utils/utils';
+import { PairedPlayers, Player } from '../../models/models';
+import { UpdateList } from '../../store/actions/actions';
+import { Card } from '../../shared/card/card';
 import styles from './pairs.module.scss';
 
 /**
@@ -34,15 +35,19 @@ export const Pairs = ({ list }: { list: Player[] }) => {
     const length = list.length;
     const newPairs: PairedPlayers[] = [];
     if (length) {
-      for (let i = 0; i < length; i++) {
-        const next = i + 1;
-        const recipientIndex = list[next] ? next : 0;
-        newPairs.push({
-          from: list[i],
-          to: list.slice(recipientIndex, recipientIndex + 1)[0],
-        });
-      }
-      setPairs(newPairs);
+      const arrange = async () => {
+        const suffled = await secureShuffle(list);
+        for (let i = 0; i < length; i++) {
+          const next = i + 1;
+          const recipientIndex = suffled[next] ? next : 0;
+          newPairs.push({
+            from: suffled[i],
+            to: list.slice(recipientIndex, recipientIndex + 1)[0],
+          });
+        }
+        setPairs(newPairs);
+      };
+      arrange();
     }
   }, [list, setPairs, arranged]);
 

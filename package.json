@@ -1,6 +1,6 @@
 {
   "name": "secret-santa",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
@@ -10,6 +10,7 @@
     "@types/node": "^16.11.10",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
+    "random-number-csprng": "^1.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
@@ -45,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "@types/random-number-csprng": "^1.0.0",
     "@types/redux-mock-store": "^1.0.3",
     "better-docs": "^2.3.2",
     "jsdoc": "^3.6.7",

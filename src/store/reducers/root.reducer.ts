@@ -2,7 +2,6 @@ import { combineReducers } from 'redux';
 import { initialState } from '../initialState';
 import { Action, PlayersState } from './../../models/models';
 import { SantaActions } from '../actions/actions';
-import { shuffleArray } from '../../utils/utils';
 
 /**
  *
@@ -18,7 +17,7 @@ export const playersReducer = (
     case SantaActions.SET_PLAYERS:
       return { ...state, list: action.payload };
     case SantaActions.UPDATE_LIST:
-      return { ...state, list: shuffleArray(state.list)}
+      return { ...state }
     default:
       return state;
   }

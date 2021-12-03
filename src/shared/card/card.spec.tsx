@@ -1,5 +1,5 @@
 import { render, cleanup } from '@testing-library/react';
-import { mockPlayer } from '../store/mock-player';
+import { mockPlayer } from '../../store/mock-player';
 import { Card } from './card';
 afterEach(cleanup);
 

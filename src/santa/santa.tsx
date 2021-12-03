@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { FetchPlayers } from '../store/actions/actions';
-import { Pairs } from '../pairs/pairs';
+import { Pairs } from './pairs/pairs';
 import { State } from '../models/models';
 import styles from './santa.module.scss';
 
