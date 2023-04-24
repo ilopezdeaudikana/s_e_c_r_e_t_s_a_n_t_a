@@ -1,47 +1,52 @@
-import { runSaga } from 'redux-saga';
-import { fetchPlayers } from './players.saga';
-import { SantaActions } from '../actions/actions';
-import * as api from '../../api/api';
-import { mockPlayer as player } from '../mock-player';
+import { runSaga } from 'redux-saga'
+import { vi } from 'vitest'
+import { fetchPlayers } from './players.saga'
+import * as api from '../../api/api'
+import { mockPlayer as player } from '../mock-player'
 
 describe('fetchPlayers', () => {
   it('should call players api and dispatch success action', async () => {
-    const requestPlayers = jest
+    const requestPlayers = vi
       .spyOn(api, 'getPlayers')
-      .mockImplementation(() => Promise.resolve([player]));
-    const dispatched: any = [];
+      .mockImplementation(async () => {
+        return new Promise((resolve) => resolve([player]))
+      })
+
+    const dispatched: any = []
+
     await runSaga(
       {
-        dispatch: (action) => dispatched.push(action),
+        dispatch: (action) => dispatched.push(action)
       },
       fetchPlayers as any
-    );
-
-    expect(requestPlayers).toHaveBeenCalledTimes(1);
+    ).toPromise()
+    expect(requestPlayers).toHaveBeenCalledTimes(1)
     expect(dispatched).toEqual([
-      { type: SantaActions.SET_PLAYERS, payload: [player] },
-    ]);
-    requestPlayers.mockClear();
-  });
+      {
+        payload: [player],
+        type: 'players/setPlayers'
+      }
+    ])
+    requestPlayers.mockClear()
+  })
 
   it('should call api and dispatch error action', async () => {
-    const error = { message: 'ERROR' };
-    const requestPlayers = jest
+    const error = { message: 'ERROR' }
+    const requestPlayers = vi
       .spyOn(api, 'getPlayers')
-      .mockImplementation(() => Promise.reject(error));
-    const dispatched: any = [];
+      .mockImplementation(() => {
+        throw new Error(error.message)
+      })
+    const dispatched: any = []
     await runSaga(
       {
-        dispatch: (action) => dispatched.push(action),
+        dispatch: (action) => dispatched.push(action)
       },
       fetchPlayers as any
-    );
+    )
 
-    expect(requestPlayers).toHaveBeenCalledTimes(1);
-    expect(dispatched).toEqual([
-      { type: SantaActions.SET_PLAYERS, payload: [] },
-    ]);
-    requestPlayers.mockClear();
-  });
-});
-
+    expect(requestPlayers).toHaveBeenCalledTimes(1)
+    expect(dispatched).toEqual([{ type: 'players/setPlayers', payload: [] }])
+    requestPlayers.mockClear()
+  })
+})

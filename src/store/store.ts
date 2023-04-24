@@ -1,19 +1,31 @@
-import { createStore, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga'
-import rootReducer from './reducers/root.reducer';
+import playersReducer from './state/players.slice';
 import playersSaga from './sagas/players.saga';
 
-export const sagaMiddleware = createSagaMiddleware()
-const enhancers = composeWithDevTools(applyMiddleware(sagaMiddleware));
+const sagaMiddleware = createSagaMiddleware();
 
-export const configureStore = (() => {
-  return createStore(
-    rootReducer,
-    enhancers
-  );
-
+export const store = configureStore({
+  reducer: {
+    players: playersReducer
+  },
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware({ thunk: false }).prepend(sagaMiddleware);
+  }
 });
 
-export const store = configureStore();
 sagaMiddleware.run(playersSaga);
+
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>;
+
+// Use throughout your app instead of plain `useDispatch` and `useSelector`
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

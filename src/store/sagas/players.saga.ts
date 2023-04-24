@@ -2,7 +2,8 @@
 
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { Player } from '../../models/models';
-import { SantaActions, SetPlayers } from '../actions/actions';
+import { SantaActions } from '../actions/actions';
+import { setPlayers } from '../state/players.slice';
 import { getPlayers } from '../../api/api';
 
 /**
@@ -14,10 +15,10 @@ import { getPlayers } from '../../api/api';
 export function* fetchPlayers() {
   try {
     const players: Player[] = yield call(getPlayers);
-    yield put(SetPlayers(players));
+    yield put(setPlayers(players));
   } catch (e) {
-    console.log(e);
-    yield put(SetPlayers([]));
+    // console.log(e);
+    yield put(setPlayers([]));
   }
 }
 

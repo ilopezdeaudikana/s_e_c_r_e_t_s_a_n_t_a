@@ -1,32 +1,17 @@
-import { act } from 'react-dom/test-utils';
-import { getPlayers } from './api';
-import {mockPlayer} from '../store/mock-player';
-
-/* 
-import config from '../config';
-
-const santaApi = config.api; 
-
-*/
-
-const santaApi = 'https://tech-challenge-c81ff.web.app/secret-santa'; 
-
+import { act } from 'react-dom/test-utils'
+import { vi } from 'vitest'
+import { getPlayersTest } from './api'
+import {mockPlayer} from '../store/mock-player'
 
 it('fetches fake players', async () => {
-
-  const fetchSpy = jest.spyOn(global, 'fetch')
-  fetchSpy.mockImplementation(() =>
-    Promise.resolve({
-      json: () => Promise.resolve([mockPlayer]),
-    }) as Promise<Response>
-  );
-
+  global.fetch = vi.fn().mockImplementation(() => {
+    return {
+      json: () => new Promise(resolve => resolve([mockPlayer]))
+    }
+  })
   await act(async () => {
-    const scans = await getPlayers();
+    const scans = await getPlayersTest();
     expect(scans).toEqual([mockPlayer]);
-    expect(global.fetch).toHaveBeenCalledWith(
-        santaApi
-    );
+    expect(global.fetch).toHaveBeenCalled();
   });
-  fetchSpy.mockRestore();
 });

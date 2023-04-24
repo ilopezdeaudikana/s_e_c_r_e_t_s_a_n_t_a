@@ -1,28 +1,45 @@
-import { render, cleanup, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import * as reactRedux from 'react-redux';
-import { mockPlayer } from '../../store/mock-player';
-import { UpdateList } from '../../store/actions/actions';
-import { Pairs } from './pairs';
-import { Action } from '../../models/models';
-
-afterEach(cleanup);
+import { mockPlayer } from '../../store/mock-player'
+import { vi } from 'vitest'
+import { Provider } from 'react-redux'
+import configureStore from 'redux-mock-store'
+import { render, screen, waitFor, fireEvent} from '@testing-library/react'
+import { act } from 'react-dom/test-utils'
+import { Pairs } from './pairs'
 
 describe('Pairs component', () => {
-
-  let useDispatchMock: any;
-  let mockedDispatch: any;
-  beforeEach(() => {
-    mockedDispatch = jest.fn();
-    useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
-    (useDispatchMock as jest.Mock).mockReturnValue(mockedDispatch);
-  });
-
-  it('should dispatch UpdateList', async () => {
-    const {getByRole} = render(<Pairs list={[mockPlayer]} />);
-    const submit = getByRole('button');
-    const action: Action = UpdateList();
-    userEvent.click(submit);
-    await waitFor(() => expect(mockedDispatch).toHaveBeenCalledWith(action));
-  });
-});
+  it('should dispatch updateList', async () => {
+    const mockStore = configureStore()
+    const store = mockStore({
+      players: { list: [mockPlayer] }
+    })
+    vi.mock('../store/store', () => {
+      return {
+        useAppDispatch: vi.fn().mockImplementation(() => vi.fn()),
+        useAppSelector: vi
+          .fn()
+          .mockImplementation(() => ({
+            list: []
+          }))
+      }
+    })
+    const dispatchSpy = vi.spyOn(store,'dispatch')
+    const {container} = render(
+      <Provider store={store}>
+        <Pairs list={[mockPlayer]} />
+      </Provider>
+    )
+    const submit = screen.getByRole('button')
+    const listItems = container.querySelectorAll('li')
+    act(() => {
+      expect(listItems?.length).toBe(1)
+      expect(submit).toBeInTheDocument()
+    })
+    fireEvent.click(submit)
+    await waitFor(() => {
+      expect(dispatchSpy).toHaveBeenCalledWith({
+       payload: undefined,
+        type: 'players/updateList',
+      })
+    })
+  })
+})

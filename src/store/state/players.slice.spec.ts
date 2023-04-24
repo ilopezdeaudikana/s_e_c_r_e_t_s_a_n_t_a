@@ -1,12 +1,11 @@
 import { initialState } from '../initialState';
-import { SantaActions } from '../actions/actions';
-import { playersReducer } from './root.reducer';
+import playersReducer from './players.slice';
 import { mockPlayer as player } from '../mock-player';
 
 describe('playersReducer', () => {
   it('should set players', () => {
     const state = playersReducer(initialState.players, {
-      type: SantaActions.SET_PLAYERS,
+      type: 'players/setPlayers',
       payload: [player],
     });
     expect(state.list).toEqual([player]);
