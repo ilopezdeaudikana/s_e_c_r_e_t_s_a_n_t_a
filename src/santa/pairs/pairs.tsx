@@ -14,7 +14,7 @@ import styles from './pairs.module.scss'
  * @param {Player[]} props.list An array of Players
  * @returns {JSX.Element}
  */
-export const Pairs = ({list } :{ list: Player[] }) => {
+export const Pairs = ({ list } :{ list: Player[] }) => {
   const [pairs, setPairs] = useState<PairedPlayers[]>([])
   const [arranged, setArranged] = useState(false)
   const dispatch = useAppDispatch()

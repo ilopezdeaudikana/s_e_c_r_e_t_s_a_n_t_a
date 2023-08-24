@@ -1,3 +1,4 @@
+import 'whatwg-fetch'
 import { vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'
@@ -17,6 +18,16 @@ describe('Santa component', () => {
       return {
         useAppDispatch: vi.fn().mockImplementation(() => vi.fn()),
         useAppSelector: vi.fn().mockImplementation(() => ({ list: [mockPlayer, {...mockPlayer, phone: '123' }] })),
+      }
+    })
+    vi.mock('../store/queries/players.query', () => {
+      return {
+        useGetPlayersQuery: vi.fn().mockImplementation(() => ({ list: [mockPlayer, {...mockPlayer, phone: '123' }] })),
+      }
+    })
+    vi.mock('@reduxjs/toolkit/query/react', () => {
+      return {
+        fetchBaseQuery: vi.fn().mockImplementation(() => vi.fn())
       }
     })
     render(

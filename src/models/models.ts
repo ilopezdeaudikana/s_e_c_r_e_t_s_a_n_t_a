@@ -1,9 +1,7 @@
 export interface Player {
-  name: { first: string; last: string };
-  age: number;
+  name: string;
   email: string;
   phone: string;
-  wishlist: string[];
 }
 
 export interface PlayersState {

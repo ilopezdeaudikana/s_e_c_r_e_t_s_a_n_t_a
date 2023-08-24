@@ -1,8 +1,5 @@
-import { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../store/store'
-import { FetchPlayers } from '../store/actions/actions'
+import { useGetPlayersQuery } from '../store/queries/players.query'
 import { Pairs } from './pairs/pairs'
-import { State } from '../models/models'
 import styles from './santa.module.scss'
 
 /**
@@ -12,24 +9,29 @@ import styles from './santa.module.scss'
  * @returns {JSX.Element}
  */
 export const Santa = () => {
-  const dispatch = useAppDispatch()
-  const { list } = useAppSelector((state: State) => state.players)
-
-  useEffect(() => {
-    dispatch(FetchPlayers())
-  }, [dispatch])
+  const { data, isError, isLoading } = useGetPlayersQuery('')
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>Secret Santa application</h1>
-        <p className={styles.description}>
-          Below is a list of the secret santa pairings.
-        </p>
-      </div>
-      <section className={styles.main}>
-        <Pairs list={list} />
-      </section>
+    <div>
+      {isError ? (
+        <>Oh no, there was an error</>
+      ) : isLoading ? (
+        <>Loading...</>
+      ) : data ? (
+        <>
+          <div className={styles.container}>
+            <div className={styles.header}>
+              <h1 className={styles.title}>Secret Santa application</h1>
+              <p className={styles.description}>
+                Below is a list of the secret santa pairings.
+              </p>
+            </div>
+            <section className={styles.main}>
+              {data && <Pairs list={data} />}
+            </section>
+          </div>
+        </>
+      ) : null}
     </div>
   )
 }

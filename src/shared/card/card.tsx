@@ -18,7 +18,7 @@ export const Card = ({ pair }: { pair: PairedPlayers }) => {
         </p>
         <p className={styles.paragraph}>
           <span className={styles.name}>
-            {pair.from.name.first} {pair.from.name.last}
+            {pair.from.name}
           </span>
         </p>
         <p className={styles.paragraph}>
@@ -26,7 +26,7 @@ export const Card = ({ pair }: { pair: PairedPlayers }) => {
         </p>
         <p className={styles.paragraph}>
           <span className={styles.name}>
-            {pair.to.name.first} {pair.to.name.last}
+            {pair.to.name}
           </span>
         </p>
       </div>

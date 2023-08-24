@@ -19,7 +19,7 @@ const playersSlice = createSlice({
     updateList(state: PlayersState) {
       state.list = [...state.list]
     }
-  }
+  },
 })
 
 export const { setPlayers, updateList} = playersSlice.actions;
