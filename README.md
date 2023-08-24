@@ -10,7 +10,7 @@ The UI is divided in three components, Santa, Pairs and Card. The logic is divid
 2. Pairs component: Does the actual pairing of the users and passes a pair to each card.
 3. Card component: Renders the pair.
 
-The stack I used is `React`, `Typescript`, `React hooks`, `Redux`, `Sagas`, `Vite`, `Vitest`, `JSDoc` and `Scss modules`.
+The stack I used is `React`, `Typescript`, `React hooks`, `Redux`, `RTQ`, `Vite`, `Vitest`, `JSDoc` and `Scss modules`.
 
 I have chosen redux for state management. Maybe I could have used the context API for this case (combined with useReducer), but I tend to use redux by default because scales better and doesn't rely on the tree structure.
 

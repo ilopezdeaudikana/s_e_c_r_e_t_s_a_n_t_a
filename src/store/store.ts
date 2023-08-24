@@ -1,30 +1,19 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import createSagaMiddleware from 'redux-saga'
-import playersReducer from './state/players.slice';
-import playersSaga from './sagas/players.saga';
+import { configureStore } from '@reduxjs/toolkit';
+import { api } from './queries/players.query';
 
-const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
   reducer: {
-    players: playersReducer
+    [api.reducerPath]: api.reducer,
   },
-  middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware({ thunk: false }).prepend(sagaMiddleware);
-  }
+  middleware: (gDM) => gDM().concat(api.middleware),
 });
 
-sagaMiddleware.run(playersSaga);
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->;
+
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
 export const useAppDispatch = () => useDispatch<AppDispatch>();
